@@ -20,7 +20,6 @@
           modifier = drv:
             pkgs.haskell.lib.addBuildTools drv (with pkgs.haskellPackages; [
               cabal-install
-              pkgs.icu
               pkgs.nixpkgs-fmt
               pkgs.zlib
             ]);

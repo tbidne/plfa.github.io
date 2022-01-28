@@ -30,6 +30,8 @@ Gemfile.lock
 
 ## Emacs files
 auto/
+\#*
+.\#*
 
 ## Misc build files
 *.zip
