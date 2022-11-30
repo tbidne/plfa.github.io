@@ -66,7 +66,9 @@ bibliographyFile = dataDir </> "bibliography.bib"
 bookDir, chapterDir, courseDir :: FilePath
 bookDir = "book"
 chapterDir = "src"
-courseDir = "courses"
+-- HACK: Latest version (ghc 9.2) does not build older courses due to needing
+-- different agda stdlibs
+courseDir = "courses/TSPL/2022"
 
 epubDir, epubFontsDir, epubStyleDir, epubTemplateDir :: FilePath
 epubDir = bookDir </> "epub"
