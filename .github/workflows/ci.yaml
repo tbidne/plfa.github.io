@@ -1,0 +1,31 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+      - ci
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  nix:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+      - name: Setup nix
+        uses: cachix/install-nix-action@v25
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          nix_path: nixpkgs=channel:nixos-unstable
+      - name: Build
+        run: |
+          set -e
+
+          echo "*** Launching nix shell ***"
+
+          nix develop -vL --command bash -c ./.github/scripts/build.sh
+
+          echo "*** Finished ***"
