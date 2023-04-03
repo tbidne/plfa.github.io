@@ -15,18 +15,17 @@
   # 4. nix build .#serve that builds and starts the webserver
 
   outputs =
-    { flake-parts
+    inputs@{ flake-parts
     , self
     , ...
     }:
-    flake-parts.lib.mkFlake { inherit self; } {
+    flake-parts.lib.mkFlake { inherit inputs; } {
       perSystem = { pkgs, ... }:
         let
           haskellDeps = ps: with ps; [
             cabal-install
-            cabal-plan
           ];
-          compilerVersion = "ghc924";
+          compilerVersion = "ghc944";
           ghc = pkgs.haskell.packages.${compilerVersion}.ghcWithPackages haskellDeps;
 
           otherDeps = [
@@ -39,6 +38,7 @@
             pkgs.agda
             pkgs.fswatch
             pkgs.icu
+            pkgs.pkg-config # digest uses pkg-config to search for zlib
             pkgs.nodejs-18_x
             pkgs.zlib
           ];
