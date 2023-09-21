@@ -22,10 +22,10 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       perSystem = { pkgs, ... }:
         let
-          haskellDeps = ps: with ps; [
-            cabal-install
+          haskellDeps = ps: [
+            ps.cabal-install
           ];
-          compilerVersion = "ghc944";
+          compilerVersion = "ghc962";
           ghc = pkgs.haskell.packages.${compilerVersion}.ghcWithPackages haskellDeps;
 
           otherDeps = [
