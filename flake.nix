@@ -46,6 +46,20 @@
         {
           devShells.default = pkgs.mkShell {
             buildInputs = [ ghc ] ++ otherDeps;
+
+            shellHook = ''
+              plfa_mk_builder () {
+                cabal build --project-file=cabal.project.ghc-9.6.2
+              }
+
+              plfa_build () {
+                cabal run builder --project-file=cabal.project.ghc-9.6.2 -- build
+              }
+
+              plfa_serve () {
+                make serve
+              }
+            '';
           };
         };
       systems = [
