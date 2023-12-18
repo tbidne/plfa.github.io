@@ -29,13 +29,19 @@
           ghc = pkgs.haskell.packages.${compilerVersion}.ghcWithPackages haskellDeps;
 
           otherDeps = [
-            # NOTE: Building depends on having the correct stdlib, which is
-            # pinned in the submodule. It would be nice if we guarantee the
-            # correct version here, rather than using the submodule. The below
-            # commented line is here for reference, as it does not work
-            # (i.e. the shell launches fine but still uses the submodule).
-            #(pkgs.agda.withPackages [ pkgs.agdaPackages.standard-library ])
-            pkgs.agda
+            # NOTE: For whatever reason, the agda-mode extension does not seem
+            # to work without the stdlib directly included here. We attempted
+            # to manually work around this by creating a .agda dir and pointing
+            # to that here i.e. shellHook = "export AGDA_DIR=.agda", which
+            # fixed the "can't find stdlib" error, but then we received a
+            # new, vague "internal parse error". The message suggested a
+            # possible version mismatch, though who knows.
+            #
+            # In any case, explicitly using the stdlib from nixpkgs "works"
+            # for now. Of course this is not necessarily the same version
+            # as the submodule, so care will have to be taken when
+            # updating.
+            (pkgs.agda.withPackages [ pkgs.agdaPackages.standard-library ])
             pkgs.fswatch
             pkgs.icu
             pkgs.pkg-config # digest uses pkg-config to search for zlib
